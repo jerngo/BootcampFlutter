@@ -2,7 +2,7 @@ import 'dart:io';
 
 void main(){
     //Tugas 1
-    //TernaryOperator();
+    TernaryOperator();
 
     //Tugas 2
     //PeranWerewolf();
@@ -11,7 +11,7 @@ void main(){
     //QuotesHariini();
 
     //Tugas 4
-    FormatTanggal();
+    //FormatTanggal();
 }
 
 //Tugas 1 - Ternary Operator
