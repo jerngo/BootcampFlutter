@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tugas_api/Users/model/user_model.dart';
 
 class UserService {
-  Dio dio = Dio();
+  Dio dio = Dio(BaseOptions(headers: {'x-api-key': 'reqres-free-v1'}));
   static const url = 'https://reqres.in/api/users?page=2';
 
   Future<List<UserModel>> fetchUser() async {
@@ -23,11 +23,8 @@ class UserService {
   }
 
   Future<UserModel> fetchUserDetail(int id) async {
-    //API-nya tidak mau mengambil data id lain selain id=2
-    int findId = id;
-    if (findId != 2) findId = 2;
     try {
-      final response = await dio.get('https://reqres.in/api/users/$findId');
+      final response = await dio.get('https://reqres.in/api/users/$id');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data['data'];
