@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "260186198941",
+    "project_id": "tugas12firebase",
+    "storage_bucket": "tugas12firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260186198941:android:65e8372815eec2d7dd9574",
+        "android_client_info": {
+          "package_name": "com.example.tugas12_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKQ-hu9O0xsb3-WMO7c4QaUM2fhoczMJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
