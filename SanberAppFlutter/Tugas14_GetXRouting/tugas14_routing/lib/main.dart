@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get/route_manager.dart';
 import 'package:tugas14_routing/auth/pages/get_starter_page.dart';
 import 'package:tugas14_routing/firebase_options.dart';
 import 'package:tugas14_routing/login_page.dart';
 import 'package:tugas14_routing/news_view/newsview.dart';
 import 'package:tugas14_routing/register_page.dart';
+import 'package:tugas14_routing/routes/app_routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +20,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
+      getPages: AppRoutes.routes,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -38,7 +41,6 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginPage(),
     );
   }
 }

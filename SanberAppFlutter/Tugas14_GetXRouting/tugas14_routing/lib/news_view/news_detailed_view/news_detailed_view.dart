@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tugas14_routing/news_view/newsview.dart';
 
@@ -147,10 +149,7 @@ Widget topNavBar(BuildContext context) {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewsView()),
-            );
+            Get.back();
           },
           child: Image.asset("assets/icons/Back_Icon.png"),
         ),

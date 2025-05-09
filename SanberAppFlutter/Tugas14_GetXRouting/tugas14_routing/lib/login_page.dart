@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tugas14_routing/register_page.dart';
+import 'package:tugas14_routing/routes/app_routes_name.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -80,11 +82,15 @@ class _LoginPageState extends State<LoginPage> {
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
 
+                    showLoadingDialog(context);
+
                     try {
                       await FirebaseAuth.instance.signInWithEmailAndPassword(
                         email: email,
                         password: password,
                       );
+
+                      Navigator.of(context).pop();
 
                       emailController.clear();
                       passwordController.clear();
@@ -99,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
-                                    // Navigator.pushReplacementNamed(context, '/home');
+                                    Get.offAllNamed(AppRoutesName.pageHomeNews);
                                   },
                                   child: Text("OK"),
                                 ),
@@ -107,6 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                       );
                     } catch (e) {
+                      Navigator.of(context).pop();
                       debugPrint('Firebase Auth Login Error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("Login gagal: ${e.toString()}")),
@@ -173,10 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text('Belum punya akun?'),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()),
-                      );
+                      Get.toNamed((AppRoutesName.pageRegister));
                     },
                     child: Text(
                       ' Mendaftar ',
@@ -224,4 +228,12 @@ class CustomTextFormField extends StatelessWidget {
       ),
     );
   }
+}
+
+void showLoadingDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(child: CircularProgressIndicator()),
+  );
 }

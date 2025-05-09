@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tugas14_routing/news_view/news_detailed_view/news_detailed_view.dart';
+import 'package:tugas14_routing/routes/app_routes_name.dart';
 
 class NewsView extends StatelessWidget {
   const NewsView({super.key});
@@ -68,10 +70,7 @@ Widget listViewVertical(List<VerticalNewsItem> verticalNewsItems) {
           padding: const EdgeInsets.only(left: 32, right: 32, bottom: 24),
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewsDetailedView()),
-              );
+              Get.toNamed((AppRoutesName.pageDetailedNews));
             },
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -266,12 +265,8 @@ Widget topHorizontalListView(List<NewsItem> newsItems) {
                                     Alignment.bottomLeft, // Align ke bawah kiri
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => NewsDetailedView(),
-                                      ),
+                                    Get.toNamed(
+                                      (AppRoutesName.pageDetailedNews),
                                     );
                                   },
                                   child: Text(
@@ -347,24 +342,29 @@ Widget topNavBar() {
 }
 
 Widget circularMenuIcon() {
-  return Container(
-    width: 40,
-    height: 40,
-    decoration: const BoxDecoration(
-      color: Color(0xFF141E28),
-      shape: BoxShape.circle,
-    ),
-    child: Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(width: 16, height: 2, color: Colors.white),
-          const SizedBox(height: 6),
-          Container(
-            padding: const EdgeInsets.only(right: 5),
-            child: Container(width: 10, height: 2, color: Colors.white),
-          ),
-        ],
+  return GestureDetector(
+    onTap: () {
+      Get.offAllNamed((AppRoutesName.pageGetStarter));
+    },
+    child: Container(
+      width: 40,
+      height: 40,
+      decoration: const BoxDecoration(
+        color: Color(0xFF141E28),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(width: 16, height: 2, color: Colors.white),
+            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.only(right: 5),
+              child: Container(width: 10, height: 2, color: Colors.white),
+            ),
+          ],
+        ),
       ),
     ),
   );

@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:tugas14_routing/login_page.dart';
+import 'package:tugas14_routing/routes/app_routes_name.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -182,9 +184,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   Text('Sudah punya akun? silahkan'),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      Get.toNamed(
+                        (AppRoutesName.pageLogin),
                       ); // Ganti '/login' dengan route login kamu
                     },
                     child: Text(

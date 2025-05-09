@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tugas14_routing/routes/app_routes_name.dart';
 
 class GetStarterPage extends StatelessWidget {
   const GetStarterPage({super.key});
@@ -41,7 +44,9 @@ class GetStarterPage extends StatelessWidget {
                 height: 52,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed((AppRoutesName.pageLogin));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff3498DE),
                     shape: RoundedRectangleBorder(
@@ -65,7 +70,9 @@ class GetStarterPage extends StatelessWidget {
                   height: 52,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed((AppRoutesName.pageRegister));
+                    },
                     style: ElevatedButton.styleFrom(
                       side: BorderSide(color: Color(0xff3498DE)),
                       backgroundColor: Colors.white,
