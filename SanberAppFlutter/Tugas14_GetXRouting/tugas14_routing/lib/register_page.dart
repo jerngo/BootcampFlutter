@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tugas12_firebase/login_page.dart';
+import 'package:tugas14_routing/login_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -86,10 +86,12 @@ class _RegisterPageState extends State<RegisterPage> {
                             password: password,
                           );
 
+                      // Kosongkan input
                       emailController.clear();
                       passwordController.clear();
                       confirmPasswordController.clear();
 
+                      // Tampilkan popup berhasil
                       showDialog(
                         context: context,
                         builder:
@@ -99,7 +101,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop(); // tutup dialog
+                                    // Navigasi ke halaman login misalnya:
+                                    // Navigator.pushReplacementNamed(context, '/login');
                                   },
                                   child: Text("OK"),
                                 ),
@@ -121,7 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-
+              // bagian bawah tidak diubah
               SizedBox(height: 40),
               Row(
                 children: [
@@ -181,13 +185,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(builder: (context) => LoginPage()),
-                      );
+                      ); // Ganti '/login' dengan route login kamu
                     },
                     child: Text(
                       ' masuk.',
                       style: TextStyle(
                         color: Color(0xffF3498DB),
-                        decoration: TextDecoration.underline,
+                        decoration:
+                            TextDecoration
+                                .underline, // opsional: beri garis bawah
                       ),
                     ),
                   ),

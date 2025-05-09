@@ -1,24 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:tugas12_firebase/login_page.dart';
+import 'package:tugas14_routing/register_page.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -37,12 +35,13 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 330,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/image/login.png'),
+                      image: AssetImage('assets/image/deal.png'),
                     ),
                   ),
                 ),
               ),
               SizedBox(height: 40),
+
               CustomTextFormField(
                 label: 'Masukkan Email',
                 controller: emailController,
@@ -50,10 +49,22 @@ class _RegisterPageState extends State<RegisterPage> {
               CustomTextFormField(
                 label: "Password",
                 controller: passwordController,
+                padding: EdgeInsets.only(bottom: 0),
+                obscureText: true,
               ),
-              CustomTextFormField(
-                label: "Konfirmasi Password",
-                controller: confirmPasswordController,
+              Padding(
+                padding: const EdgeInsets.only(top: 7, bottom: 24),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Lupa password?",
+                    style: TextStyle(
+                      fontFamily: "Montserrat",
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 52,
@@ -66,40 +77,29 @@ class _RegisterPageState extends State<RegisterPage> {
                     backgroundColor: Color(0xffF3498DB),
                   ),
                   onPressed: () async {
-                    print('Tombol Mendaftar ditekan');
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
-                    final confirmPassword =
-                        confirmPasswordController.text.trim();
-
-                    if (password != confirmPassword) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Password tidak cocok")),
-                      );
-                      return;
-                    }
 
                     try {
-                      await FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                            email: email,
-                            password: password,
-                          );
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
 
                       emailController.clear();
                       passwordController.clear();
-                      confirmPasswordController.clear();
 
                       showDialog(
                         context: context,
                         builder:
                             (context) => AlertDialog(
-                              title: Text("Berhasil"),
-                              content: Text("Akun berhasil didaftarkan!"),
+                              title: Text("Login Berhasil"),
+                              content: Text("Selamat datang kembali!"),
                               actions: [
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
+                                    // Navigator.pushReplacementNamed(context, '/home');
                                   },
                                   child: Text("OK"),
                                 ),
@@ -107,36 +107,30 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                       );
                     } catch (e) {
-                      debugPrint('Firebase Auth Error: $e');
+                      debugPrint('Firebase Auth Login Error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Terjadi kesalahan: ${e.toString()}"),
-                        ),
+                        SnackBar(content: Text("Login gagal: ${e.toString()}")),
                       );
                     }
                   },
-                  child: Text(
-                    'Mendaftar',
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  child: Text('Masuk', style: TextStyle(color: Colors.white)),
                 ),
               ),
-
-              SizedBox(height: 40),
+              SizedBox(height: 38),
               Row(
                 children: [
                   Expanded(child: Divider(color: Color(0xffC0C0C0), height: 3)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Text(
-                      'Atau daftar menggunakan',
+                      'Atau masuk menggunakan',
                       style: TextStyle(color: Color(0xffC0C0C0)),
                     ),
                   ),
                   Expanded(child: Divider(color: Color(0xffC0C0C0), height: 3)),
                 ],
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 32),
               Material(
                 color: Colors.white,
                 child: SizedBox(
@@ -164,33 +158,32 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                           ),
                         ),
-                        Text('Mendaftar', style: TextStyle(color: Colors.red)),
+                        Text('Google', style: TextStyle(color: Colors.red)),
                         SizedBox(),
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: 49),
+              SizedBox(height: 10),
+              Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Sudah punya akun? silahkan'),
+                  Text('Belum punya akun?'),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => RegisterPage()),
                       );
                     },
                     child: Text(
-                      ' masuk.',
-                      style: TextStyle(
-                        color: Color(0xffF3498DB),
-                        decoration: TextDecoration.underline,
-                      ),
+                      ' Mendaftar ',
+                      style: TextStyle(color: Color(0xffF3498DB)),
                     ),
                   ),
+                  Text('sekarang.'),
                 ],
               ),
             ],
@@ -205,18 +198,23 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.label,
-    required this.controller,
+    this.controller,
+    this.obscureText = false,
+    this.padding = const EdgeInsets.only(bottom: 25),
   });
 
   final String label;
-  final TextEditingController controller;
+  final EdgeInsets padding;
+  final TextEditingController? controller;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 25),
+      padding: padding,
       child: TextFormField(
         controller: controller,
+        obscureText: obscureText,
         decoration: InputDecoration(
           label: Text(label, style: TextStyle(color: Color(0xffC0C0C0))),
           border: OutlineInputBorder(

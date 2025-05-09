@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(height: 40),
-              // ← Tambahkan controller di sini
+
               CustomTextFormField(
                 label: 'Masukkan Email',
                 controller: emailController,
@@ -116,8 +116,76 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text('Masuk', style: TextStyle(color: Colors.white)),
                 ),
               ),
-              // ... lanjutan tidak berubah ...
-              // (Google login dan tombol daftar tetap sama)
+              SizedBox(height: 38),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: Color(0xffC0C0C0), height: 3)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      'Atau masuk menggunakan',
+                      style: TextStyle(color: Color(0xffC0C0C0)),
+                    ),
+                  ),
+                  Expanded(child: Divider(color: Color(0xffC0C0C0), height: 3)),
+                ],
+              ),
+              SizedBox(height: 32),
+              Material(
+                color: Colors.white,
+                child: SizedBox(
+                  height: 52,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      surfaceTintColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.red),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    onPressed: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 33,
+                          height: 33,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/image/google.png'),
+                            ),
+                          ),
+                        ),
+                        Text('Google', style: TextStyle(color: Colors.red)),
+                        SizedBox(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Belum punya akun?'),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => RegisterPage()),
+                      );
+                    },
+                    child: Text(
+                      ' Mendaftar ',
+                      style: TextStyle(color: Color(0xffF3498DB)),
+                    ),
+                  ),
+                  Text('sekarang.'),
+                ],
+              ),
             ],
           ),
         ),
