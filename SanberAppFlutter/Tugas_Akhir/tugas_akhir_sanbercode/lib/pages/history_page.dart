@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/utils.dart';
+import 'package:tugas_akhir_sanbercode/pages/components/custom_navbar.dart';
+import 'package:tugas_akhir_sanbercode/routes/app_routes_name.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -70,7 +74,9 @@ class HistoryPage extends StatelessWidget {
               SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(AppRoutesName.pageListItem);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF5AAD5D),
                     minimumSize: Size(354, 52),
@@ -92,18 +98,7 @@ class HistoryPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Riwayat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Pengaturan',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CustomNavbar(currentIndex: 1),
     );
   }
 }

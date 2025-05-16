@@ -1,61 +1,25 @@
 // Home Page
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tugas_akhir_sanbercode/controller/product_controller.dart';
+import 'package:tugas_akhir_sanbercode/pages/components/custom_navbar.dart';
+import 'package:tugas_akhir_sanbercode/routes/app_routes_name.dart';
 
-// Sample product model
-class Product {
-  final int id;
-  final String name;
-  final String description;
-  final double price;
-  final String image;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.image,
-  });
+class ItemListPage extends StatefulWidget {
+  @override
+  _ItemListPageState createState() => _ItemListPageState();
 }
 
-// Sample products data
-final List<Product> sampleProducts = [
-  Product(
-    id: 1,
-    name: 'Paracetamol 500mg',
-    description: 'Obat pereda nyeri dan penurun demam.',
-    price: 12000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 2,
-    name: 'Minyak Kayu Putih',
-    description: 'Untuk menghangatkan tubuh dan meredakan masuk angin.',
-    price: 18000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 3,
-    name: 'Vitamin C',
-    description: 'Meningkatkan daya tahan tubuh.',
-    price: 25000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 4,
-    name: 'Masker Surgical',
-    description: 'Masker wajah untuk perlindungan maksimal.',
-    price: 40000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-];
+class _ItemListPageState extends State<ItemListPage> {
+  final ProductController controller = Get.find();
 
-class ItemListPage extends StatelessWidget {
-  const ItemListPage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchProductList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +45,7 @@ class ItemListPage extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                //aksi disini
+                                Get.toNamed(AppRoutesName.pageHome);
                               },
                               child: Image.asset(
                                 "assets/icons/Icon_Tombol_Back.png",
@@ -146,55 +110,54 @@ class ItemListPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics:
-                      NeverScrollableScrollPhysics(), // agar tidak konflik dengan scroll utama
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 13,
-                    childAspectRatio: 147 / 250,
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    //final product = sampleProducts[index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: SizedBox(
-                                width: 112,
-                                height: 112,
-                                child: Image.network(
-                                  "https://images.tokopedia.net/img/cache/700/VqbcmM/2022/2/10/bf871614-4acd-4b1a-bd38-59187e215cef.jpg",
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-                                  fit: BoxFit.cover,
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 13,
+                      childAspectRatio: 147 / 250,
+                    ),
+                    itemCount: controller.products.length,
+                    itemBuilder: (context, index) {
+                      final product = controller.products[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: SizedBox(
+                                  width: 112,
+                                  height: 112,
+                                  child: Image.network(
+                                    product.image,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 8),
-                            SizedBox(
-                              width: 137,
-                              height: 26,
-                              child: Text(
-                                "Mefinal 500mg\n10 Tablet",
-
+                              SizedBox(height: 8),
+                              Text(
+                                product.name,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -202,13 +165,9 @@ class ItemListPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 2),
-                            SizedBox(
-                              width: 137,
-                              height: 8,
-                              child: Text(
-                                "Per Strip",
+                              SizedBox(height: 2),
+                              Text(
+                                product.unittype,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -216,67 +175,50 @@ class ItemListPage extends StatelessWidget {
                                   color: Color(0xFF5D5D5D),
                                 ),
                               ),
-                            ),
-                            Spacer(),
-                            SizedBox(
-                              width: 137,
-                              height: 12,
-                              child: Text(
-                                "Rp30.000",
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              Spacer(),
+                              Text(
+                                "Rp ${product.price}",
                                 style: TextStyle(
                                   fontSize: 7,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 5,
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFF5AAD5D),
-                                  minimumSize: Size(137, 17),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF5AAD5D),
+                                    minimumSize: Size(137, 17),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Beli",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
-                                child: Text(
-                                  "Beli",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  );
+                }),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Riwayat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Pengaturan',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CustomNavbar(currentIndex: 0),
     );
   }
 }

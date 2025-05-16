@@ -1,8 +1,29 @@
-// About Us Page
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/route_manager.dart';
+import 'package:tugas_akhir_sanbercode/pages/components/custom_navbar.dart';
+import 'package:tugas_akhir_sanbercode/routes/app_routes_name.dart';
 
-class AboutUsPage extends StatelessWidget {
+class AboutUsPage extends StatefulWidget {
   const AboutUsPage({super.key});
+
+  @override
+  State<AboutUsPage> createState() => _AboutUsPageState();
+}
+
+class _AboutUsPageState extends State<AboutUsPage> {
+  String name = '';
+  String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      name = user.displayName ?? '';
+      email = user.email ?? '';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +61,7 @@ class AboutUsPage extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 24),
                               child: GestureDetector(
                                 onTap: () {
-                                  //aksi disini
+                                  Get.offAllNamed(AppRoutesName.pageGetStarter);
                                 },
                                 child: Image.asset(
                                   "assets/icons/Icon_Logout.png",
@@ -74,7 +95,7 @@ class AboutUsPage extends StatelessWidget {
                       SizedBox(height: 10),
                       Center(
                         child: Text(
-                          "Jerry Ngo",
+                          name.isNotEmpty ? name : 'Loading...',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -85,7 +106,7 @@ class AboutUsPage extends StatelessWidget {
                       SizedBox(height: 10),
                       Center(
                         child: Text(
-                          "jerngo12@gmail.com",
+                          email.isNotEmpty ? email : '',
                           style: TextStyle(
                             fontSize: 12,
                             color: Color(0xFF2C2C2C),
@@ -329,18 +350,7 @@ class AboutUsPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Riwayat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Pengaturan',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CustomNavbar(currentIndex: 2),
     );
   }
 }

@@ -1,63 +1,29 @@
-// Home Page
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/route_manager.dart';
+import 'package:tugas_akhir_sanbercode/controller/product_controller.dart';
+import 'package:tugas_akhir_sanbercode/pages/components/custom_navbar.dart';
+import 'package:tugas_akhir_sanbercode/routes/app_routes_name.dart';
 
-// Sample product model
-class Product {
-  final int id;
-  final String name;
-  final String description;
-  final double price;
-  final String image;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.price,
-    required this.image,
-  });
-}
-
-// Sample products data
-final List<Product> sampleProducts = [
-  Product(
-    id: 1,
-    name: 'Paracetamol 500mg',
-    description: 'Obat pereda nyeri dan penurun demam.',
-    price: 12000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 2,
-    name: 'Minyak Kayu Putih',
-    description: 'Untuk menghangatkan tubuh dan meredakan masuk angin.',
-    price: 18000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 3,
-    name: 'Vitamin C',
-    description: 'Meningkatkan daya tahan tubuh.',
-    price: 25000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-  Product(
-    id: 4,
-    name: 'Masker Surgical',
-    description: 'Masker wajah untuk perlindungan maksimal.',
-    price: 40000,
-    image:
-        'https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=300&q=60',
-  ),
-];
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final ProductController controller = Get.find();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchPromoProducts();
+      controller.fetchBannerPromo();
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -94,30 +60,26 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26, // Warna bayangan
-                                blurRadius: 6, // Seberapa blur bayangannya
-                                offset: Offset(0, 3), // Posisi bayangan (x, y)
+                                color: Colors.black26,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
                           child: TextField(
                             decoration: InputDecoration(
                               hintText: 'Cari obat atau produk...',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                              ), // warna abu-abu
+                              hintStyle: TextStyle(color: Colors.grey),
                               prefixIcon: Icon(
                                 Icons.search,
                                 color: Colors.grey,
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    BorderSide.none, // hilangkan border default
+                                borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor:
-                                  Colors.white, // warna latar belakang input
+                              fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 14,
                               ),
@@ -138,7 +100,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 14),
-              //Kategori
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
@@ -149,18 +110,25 @@ class HomeScreen extends StatelessWidget {
                         buildIconKategori(
                           "Obat & Perawatan",
                           "assets/icons/Icon_Obat_Perwatan.png",
+                          AppRoutesName.pageListItem,
                         ),
                         SizedBox(width: 44),
                         buildIconKategori(
                           "Weight Management",
                           "assets/icons/Icon_Weight_Management.png",
+                          AppRoutesName.pageListItem,
                         ),
                         SizedBox(width: 44),
-                        buildIconKategori("Susu", "assets/icons/Icon_Susu.png"),
+                        buildIconKategori(
+                          "Susu",
+                          "assets/icons/Icon_Susu.png",
+                          AppRoutesName.pageListItem,
+                        ),
                         SizedBox(width: 44),
                         buildIconKategori(
                           "Asuransiku",
                           "assets/icons/Icon_Asuransiku.png",
+                          AppRoutesName.pageListItem,
                         ),
                       ],
                     ),
@@ -171,21 +139,25 @@ class HomeScreen extends StatelessWidget {
                         buildIconKategori(
                           "Ibu & Anak",
                           "assets/icons/Icon_Ibu_Anak.png",
+                          AppRoutesName.pageListItem,
                         ),
                         SizedBox(width: 44),
                         buildIconKategori(
                           "Vitamin & Suplemen",
                           "assets/icons/Icon_Vitamin_Suplemen.png",
+                          AppRoutesName.pageListItem,
                         ),
                         SizedBox(width: 44),
                         buildIconKategori(
                           "Kecantikan & Perawatan Diri",
                           "assets/icons/Icon_Kecantikan_Perawatan.png",
+                          AppRoutesName.pageListItem,
                         ),
                         SizedBox(width: 44),
                         buildIconKategori(
                           "Lihat Semua Kategori",
                           "assets/icons/Icon_Semua_Kategori.png",
+                          AppRoutesName.pageListItem,
                         ),
                       ],
                     ),
@@ -205,30 +177,31 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15),
-              SizedBox(
-                height: 156,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3, // julah banner
-                  padding: EdgeInsets.symmetric(horizontal: 18),
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 12),
-                      child: Container(
-                        width: 276,
-                        height: 156,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfKUSOjEPCtwlX7LoY6GLvsckDF8L8Od4yaQ&s",
-                            ), // contoh asset lokal
-                            fit: BoxFit.cover,
+              Obx(
+                () => SizedBox(
+                  height: 156,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: controller.bannerPromo.length,
+                    padding: EdgeInsets.symmetric(horizontal: 18),
+                    itemBuilder: (context, index) {
+                      final bannerPromo = controller.bannerPromo[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: Container(
+                          width: 276,
+                          height: 156,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(bannerPromo.image),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 47),
@@ -253,127 +226,132 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 16),
-                        SizedBox(
-                          height: 295,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 4,
-                            padding: EdgeInsets.symmetric(horizontal: 18),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 12),
-                                child: Container(
-                                  width: 147,
-                                  height: 295,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        blurRadius: 6,
-                                        offset: Offset(0, 4),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 10,
-                                            left: 18,
-                                            right: 18,
-                                          ),
-                                          child: SizedBox(
-                                            width: 112,
-                                            height: 112,
-                                            child: Image.network(
-                                              "https://images.tokopedia.net/img/cache/700/VqbcmM/2022/2/10/bf871614-4acd-4b1a-bd38-59187e215cef.jpg",
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                        Obx(
+                          () => SizedBox(
+                            height: 295,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: controller.promoProducts.length,
+                              padding: EdgeInsets.symmetric(horizontal: 18),
+                              itemBuilder: (context, index) {
+                                final product = controller.promoProducts[index];
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: Container(
+                                    width: 147,
+                                    height: 295,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 6,
+                                          offset: Offset(0, 4),
                                         ),
-                                        SizedBox(
-                                          width: 137,
-                                          height: 26,
-                                          child: Text(
-                                            "Mefinal 500mg\n10 Tablet",
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 2),
-                                        SizedBox(
-                                          width: 137,
-                                          height: 8,
-                                          child: Text(
-                                            "Per Strip",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 7,
-                                              color: Color(0xFF5D5D5D),
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        SizedBox(
-                                          width: 137,
-                                          height: 12,
-                                          child: Text(
-                                            "Rp30.000",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: 7,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        ),
-                                        //SizedBox(height: 20),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 5,
-                                            right: 5,
-                                          ),
-                                          child: ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Color(
-                                                0xFF5AAD5D,
-                                              ),
-                                              minimumSize: Size(137, 17),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                            ),
-                                            child: Text(
-                                              "Beli",
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        // Tambahkan isi lainnya di sini
                                       ],
                                     ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              top: 10,
+                                              left: 18,
+                                              right: 18,
+                                            ),
+                                            child: SizedBox(
+                                              width: 112,
+                                              height: 112,
+                                              child: Image.network(
+                                                product.image,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 137,
+                                            height: 26,
+                                            child: Text(
+                                              product.name,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 2),
+                                          SizedBox(
+                                            width: 137,
+                                            height: 8,
+                                            child: Text(
+                                              product.unittype,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 7,
+                                                color: Color(0xFF5D5D5D),
+                                              ),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          SizedBox(
+                                            width: 137,
+                                            height: 12,
+                                            child: Text(
+                                              "Rp ${product.price}",
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 7,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 5,
+                                              right: 5,
+                                            ),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                Get.toNamed(
+                                                  "${AppRoutesName.pageListItem}/${product.id}",
+                                                );
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Color(
+                                                  0xFF5AAD5D,
+                                                ),
+                                                minimumSize: Size(137, 17),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                "Beli",
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(height: 27),
@@ -382,7 +360,7 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                //aksi disini
+                                Get.toNamed(AppRoutesName.pageListItem);
                               },
                               child: Row(
                                 children: [
@@ -432,10 +410,8 @@ class HomeScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
-                        borderRadius: BorderRadius.circular(
-                          8,
-                        ), // opsional biar lebih halus
-                        color: Colors.white, // opsional, background putih
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -489,46 +465,44 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Beranda'),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Riwayat'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Akun'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Pengaturan',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CustomNavbar(currentIndex: 0),
     );
   }
 
-  Widget buildIconKategori(String categoryName, String imageLink) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 28,
-          child: Image.asset(
-            imageLink, // ganti dengan path file kamu
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
+  Widget buildIconKategori(
+    String categoryName,
+    String imageLink,
+    String pageLink,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(pageLink);
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 28,
+            child: Image.asset(
+              imageLink,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        SizedBox(height: 4),
-        SizedBox(
-          width: 53,
-          height: 26,
-          child: Text(
-            categoryName,
-            style: TextStyle(fontSize: 8),
-            maxLines: 20,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center, // atau left/right sesuai kebutuhan
+          SizedBox(height: 4),
+          SizedBox(
+            width: 53,
+            height: 26,
+            child: Text(
+              categoryName,
+              style: TextStyle(fontSize: 8),
+              maxLines: 20,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
