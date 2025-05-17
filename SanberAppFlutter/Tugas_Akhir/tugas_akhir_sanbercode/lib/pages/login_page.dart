@@ -34,9 +34,7 @@ class _LoginPageState extends State<LoginPage> {
           context,
         ).showSnackBar(SnackBar(content: Text('Login berhasil')));
 
-        Get.offAllNamed(
-          AppRoutesName.pageHome,
-        ); // Pastikan route '/home' sudah terdaftar
+        Get.offAllNamed(AppRoutesName.pageHome);
       } on FirebaseAuthException catch (e) {
         ScaffoldMessenger.of(
           context,

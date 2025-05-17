@@ -13,8 +13,7 @@ class HistoryPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start, // agar teks rata kiri tetap konsisten
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
@@ -118,9 +117,7 @@ class MenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // Tidak perlu melakukan apa-apa saat ditekan
-      },
+      onTap: () {},
       borderRadius: BorderRadius.circular(8),
       child: Row(
         children: [

@@ -1,9 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:get/utils.dart';
-import 'package:tugas_akhir_sanbercode/controller/product_controller.dart';
 import 'package:tugas_akhir_sanbercode/routes/app_routes.dart';
 
 void main() async {

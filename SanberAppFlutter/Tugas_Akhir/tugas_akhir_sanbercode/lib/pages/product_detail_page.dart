@@ -1,30 +1,41 @@
-// Detail Page
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 import 'package:tugas_akhir_sanbercode/controller/product_controller.dart';
-import 'package:tugas_akhir_sanbercode/pages/home_page.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
+  const DetailPage({super.key});
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
   final ProductController controller = Get.find();
+  int? productId;
 
-  DetailPage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    productId = int.tryParse(Get.parameters['id'] ?? '');
+    if (productId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        controller.fetchSingleProduct(productId!);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.choosenProduct.value = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final productId = int.tryParse(Get.parameters['id'] ?? '');
-
-    // Pastikan data diambil jika belum sesuai
-    if (productId != null &&
-        (controller.choosenProduct.value == null ||
-            controller.choosenProduct.value!.id != productId)) {
-      controller.fetchSingleProduct(productId);
-    }
-
     return Scaffold(
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         final product = controller.choosenProduct.value;
@@ -42,7 +53,7 @@ class DetailPage extends StatelessWidget {
                     Container(
                       height: 53,
                       width: double.infinity,
-                      color: Color(0xFF5AAD5D),
+                      color: const Color(0xFF5AAD5D),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 24, top: 11),
@@ -56,8 +67,8 @@ class DetailPage extends StatelessWidget {
                               width: 24,
                             ),
                           ),
-                          SizedBox(width: 11),
-                          Text(
+                          const SizedBox(width: 11),
+                          const Text(
                             "Detail Produk",
                             style: TextStyle(
                               fontSize: 24,
@@ -70,14 +81,12 @@ class DetailPage extends StatelessWidget {
                     ),
                   ],
                 ),
-
                 SizedBox(
                   width: double.infinity,
                   height: 219,
                   child: Image.network(product.image, fit: BoxFit.contain),
                 ),
-                Divider(color: Color(0xFFD2D2D2)),
-
+                const Divider(color: Color(0xFFD2D2D2)),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -85,89 +94,97 @@ class DetailPage extends StatelessWidget {
                   ),
                   child: Text(
                     product.name,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     product.unittype,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF5D5D5D),
                     ),
                   ),
                 ),
-
-                Divider(color: Color(0xFFD2D2D2)),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
+                const Divider(color: Color(0xFFD2D2D2)),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Text(
                     "Harga",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     "Rp ${product.price}",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF5D5D5D),
                     ),
                   ),
                 ),
-
-                Divider(color: Color(0xFFD2D2D2)),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
+                const Divider(color: Color(0xFFD2D2D2)),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   child: Text(
                     "Detail Produk",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Text(
                     product.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF5D5D5D),
                     ),
                   ),
                 ),
-
-                Divider(color: Color(0xFFD2D2D2)),
-
+                const Divider(color: Color(0xFFD2D2D2)),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 16,
                   ),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              title: const Text('Pembelian Berhasil'),
+                              content: Text(
+                                'Produk "${product.name}" berhasil dibeli!',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF5AAD5D),
-                      minimumSize: Size(double.infinity, 52),
+                      backgroundColor: const Color(0xFF5AAD5D),
+                      minimumSize: const Size(double.infinity, 52),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Beli",
                       style: TextStyle(
                         fontSize: 15,

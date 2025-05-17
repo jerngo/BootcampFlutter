@@ -50,25 +50,21 @@ class _RegisterPageState extends State<RegisterPage> {
         return;
       }
 
-      _showLoading(); // Tampilkan loading
+      _showLoading();
 
       try {
-        // 1. Daftar akun
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
               email: emailController.text.trim(),
               password: passwordController.text.trim(),
             );
 
-        // 2. Tambahkan display name ke akun user
         await userCredential.user?.updateDisplayName(
           nameController.text.trim(),
         );
 
-        // 3. (Opsional) Refresh user biar datanya langsung up-to-date
         await userCredential.user?.reload();
 
-        // 4. Tampilkan pesan sukses & navigasi ke halaman login
         _hideLoading();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Pendaftaran berhasil. Silakan login.')),

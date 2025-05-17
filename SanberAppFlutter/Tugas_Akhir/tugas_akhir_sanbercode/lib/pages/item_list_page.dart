@@ -73,30 +73,26 @@ class _ItemListPageState extends State<ItemListPage> {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26, // Warna bayangan
-                                blurRadius: 6, // Seberapa blur bayangannya
-                                offset: Offset(0, 3), // Posisi bayangan (x, y)
+                                color: Colors.black26,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
                               ),
                             ],
                           ),
                           child: TextField(
                             decoration: InputDecoration(
                               hintText: 'Cari obat atau produk...',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                              ), // warna abu-abu
+                              hintStyle: TextStyle(color: Colors.grey),
                               prefixIcon: Icon(
                                 Icons.search,
                                 color: Colors.grey,
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    BorderSide.none, // hilangkan border default
+                                borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor:
-                                  Colors.white, // warna latar belakang input
+                              fillColor: Colors.white,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 14,
                               ),
@@ -188,7 +184,13 @@ class _ItemListPageState extends State<ItemListPage> {
                                   horizontal: 5,
                                 ),
                                 child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Future.delayed(Duration.zero, () {
+                                      Get.toNamed(
+                                        "${AppRoutesName.pageListItem}/${product.id}",
+                                      );
+                                    });
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFF5AAD5D),
                                     minimumSize: Size(137, 17),

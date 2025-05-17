@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_instance/get_instance.dart';
-import 'package:get/route_manager.dart';
 import 'package:tugas_akhir_sanbercode/controller/product_controller.dart';
 import 'package:tugas_akhir_sanbercode/pages/components/custom_navbar.dart';
 import 'package:tugas_akhir_sanbercode/routes/app_routes_name.dart';
@@ -321,9 +319,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Get.toNamed(
-                                                  "${AppRoutesName.pageListItem}/${product.id}",
-                                                );
+                                                Future.microtask(() {
+                                                  Get.toNamed(
+                                                    "${AppRoutesName.pageListItem}/${product.id}",
+                                                  );
+                                                });
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: Color(

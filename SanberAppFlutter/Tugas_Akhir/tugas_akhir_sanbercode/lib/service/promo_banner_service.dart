@@ -5,11 +5,11 @@ import 'package:tugas_akhir_sanbercode/model/promo_banner_model.dart';
 class PromoBannerService {
   static Future<List<PromoBanner>> fetchProducts() async {
     final url = Uri.parse(
-      'https://my.api.mockaroo.com/banner_promo?key=fd25d540',
+      'https://my.api.mockaroo.com/banner_promo?key=17bcf370',
     );
 
     try {
-      final response = await http.get(url, headers: {'X-API-Key': 'fd25d540'});
+      final response = await http.get(url, headers: {'X-API-Key': '17bcf370'});
 
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = json.decode(response.body);

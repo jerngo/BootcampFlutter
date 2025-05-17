@@ -36,7 +36,6 @@ class ProductController extends GetxController {
       isLoading(true);
       var allProducts = await ProductService.fetchProducts();
       products.assignAll(allProducts);
-      // filter produk yang ispromo == true
       promoProducts.assignAll(allProducts.where((p) => p.isPromo).toList());
     } finally {
       isLoading(false);
